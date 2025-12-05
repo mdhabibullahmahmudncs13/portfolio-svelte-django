@@ -54,8 +54,33 @@
   {:else}
     <!-- Hero Section -->
     {#if hero}
-      <section class="relative bg-gradient-to-b from-zinc-950 to-black text-white py-20 md:py-32">
-        <div class="container mx-auto px-4 max-w-6xl">
+      <section class="relative bg-gradient-to-b from-zinc-950 to-black text-white py-20 md:py-32 overflow-hidden">
+        <!-- Background Media -->
+        {#if hero.media_type === 'video' && hero.video_url}
+          <div class="absolute inset-0 z-0">
+            <video 
+              autoplay 
+              loop 
+              muted 
+              playsinline
+              class="w-full h-full object-cover opacity-30"
+            >
+              <source src={hero.video_url} type="video/mp4" />
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/70 to-black/90"></div>
+          </div>
+        {:else if hero.media_type === 'image' && hero.image_url}
+          <div class="absolute inset-0 z-0">
+            <img 
+              src={hero.image_url} 
+              alt={hero.name}
+              class="w-full h-full object-cover opacity-30"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-black/70 to-black/90"></div>
+          </div>
+        {/if}
+
+        <div class="container mx-auto px-4 max-w-6xl relative z-10">
           <h1 class="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
             {hero.name}
           </h1>
