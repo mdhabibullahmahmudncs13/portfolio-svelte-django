@@ -31,6 +31,10 @@
   let showAllParticipation = false;
   let showAllCertifications = false;
 
+  // Skills category filter
+  let selectedCategory = 'All';
+  const categories = ['All', 'Language', 'Framework', 'Tool', 'Platform', 'Other'];
+
   onMount(async () => {
     try {
       // Fetch all data in parallel
@@ -111,7 +115,7 @@
           <svg class="w-8 h-8 text-primary-500 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
             <path d="M18.6 6.62c-1.44 0-2.8.56-3.77 1.53L12 10.66 10.48 12h.01L7.8 14.39c-.64.64-1.49.99-2.4.99-1.87 0-3.39-1.51-3.39-3.38S3.53 8.62 5.4 8.62c.91 0 1.76.35 2.44 1.03l1.13 1 1.51-1.34L9.22 8.2C8.2 7.18 6.84 6.62 5.4 6.62 2.42 6.62 0 9.04 0 12s2.42 5.38 5.4 5.38c1.44 0 2.8-.56 3.77-1.53l2.83-2.5.01.01L13.52 12h-.01l2.69-2.39c.64-.64 1.49-.99 2.4-.99 1.87 0 3.39 1.51 3.39 3.38s-1.52 3.38-3.39 3.38c-.9 0-1.76-.35-2.44-1.03l-1.14-1.01-1.51 1.34 1.27 1.12c1.02 1.01 2.37 1.57 3.82 1.57 2.98 0 5.4-2.41 5.4-5.38s-2.42-5.37-5.4-5.37z"/>
           </svg>
-          <span class="text-white font-bold text-xl tracking-tight">PORTFOLIO</span>
+          <span class="text-white font-bold text-xl tracking-tight">M.H.MAHMUD</span>
         </div>
         <div class="hidden md:flex items-center gap-8 lg:gap-10">
           <a href="#home" class="text-sm font-medium text-gray-400 hover:text-primary-500 transition-colors relative group">
@@ -223,6 +227,13 @@
                       </svg>
                     </a>
                   {/if}
+                  {#if hero.hackerrank_url}
+                    <a href={hero.hackerrank_url} target="_blank" rel="noopener" class="text-gray-400 hover:text-primary-500 transition-colors text-2xl">
+                      <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M 11.998047 0 C 10.494047 -1.4802974e-15 2.2966406 4.7119531 1.5566406 6.0019531 C 0.81164063 7.2959531 0.81359375 16.715 1.5585938 18 C 2.3035938 19.29 10.499047 24 11.998047 24 C 13.493047 24 21.691406 19.290953 22.441406 18.001953 C 23.193406 16.707953 23.191453 7.2850469 22.439453 5.9980469 C 21.686453 4.7080469 13.489047 0 11.998047 0 z M 11.998047 1 C 13.128047 1 21.005172 5.5249531 21.576172 6.5019531 C 22.145172 7.4759531 22.145172 16.519047 21.576172 17.498047 C 21.009172 18.475047 13.131047 22.998047 11.998047 22.998047 C 10.862047 22.998047 2.9878281 18.475047 2.4238281 17.498047 C 1.8608281 16.525047 1.8608281 7.4780469 2.4238281 6.4980469 C 2.9838281 5.5210469 10.858047 1 11.998047 1 z M 9.1875 4.0820312 C 8.6605 4.0820312 7.0353438 5.8205313 6.9023438 6.1445312 C 6.8253438 6.3305312 6.8667656 6.608 7.0097656 6.75 C 7.1267656 6.868 7.2595 6.9240312 7.6875 6.9570312 C 7.8135 12.261031 7.7452188 14.617547 7.6992188 16.185547 L 7.6875 16.585938 C 7.6795 16.829937 7.7476719 17.026875 7.8886719 17.171875 C 8.0266719 17.314875 8.2199375 17.386719 8.4609375 17.386719 L 9.8964844 17.390625 L 9.9042969 17.390625 C 10.149297 17.390625 10.342469 17.316875 10.480469 17.171875 C 10.619469 17.025875 10.683922 16.828891 10.669922 16.587891 C 10.607922 15.353891 10.603469 14.311266 10.605469 13.697266 L 13.412109 13.697266 C 13.397109 14.503266 13.378047 15.937062 13.373047 17.039062 C 12.958047 17.068062 12.8135 17.120094 12.6875 17.246094 C 12.5435 17.389094 12.504031 17.673328 12.582031 17.861328 C 12.707031 18.162328 14.288844 19.909063 14.839844 19.914062 L 14.84375 19.914062 C 15.38875 19.902062 16.954125 18.156422 17.078125 17.857422 C 17.158125 17.668422 17.116703 17.385188 16.970703 17.242188 C 16.856703 17.131187 16.751344 17.075063 16.277344 17.039062 C 16.273344 16.881063 16.269672 16.736125 16.263672 16.578125 C 16.232672 15.703125 16.184453 14.381109 16.314453 7.6621094 C 16.318453 7.4291094 16.253141 7.2424688 16.119141 7.1054688 C 16.029141 7.0134688 15.867516 6.9033438 15.603516 6.9023438 C 15.077516 6.9003438 14.548531 6.9002969 14.019531 6.9042969 C 13.762531 6.9082969 13.603625 7.0193281 13.515625 7.1113281 C 13.383625 7.2493281 13.319172 7.4360156 13.326172 7.6660156 C 13.379172 9.2780156 13.387719 10.439312 13.386719 11.070312 L 10.589844 11.070312 C 10.592844 10.822312 10.596609 10.548766 10.599609 10.259766 C 10.609609 9.1767656 10.620688 7.8580312 10.679688 6.9570312 C 11.105687 6.9230313 11.237516 6.8669531 11.353516 6.7519531 C 11.496516 6.6089531 11.537937 6.3305781 11.460938 6.1425781 C 11.327938 5.8195781 9.7085 4.0820312 9.1875 4.0820312 z M 9.1855469 5.1777344 C 9.4165469 5.3667344 9.7782656 5.7029531 10.072266 6.0019531 C 9.8602656 6.0599531 9.7050781 6.2534219 9.7050781 6.4824219 L 9.7070312 6.5839844 C 9.6250312 7.4629844 9.6096563 9.0099531 9.5976562 10.251953 C 9.5926562 10.755953 9.5880781 11.212547 9.5800781 11.560547 C 9.5770781 11.694547 9.6276562 11.824875 9.7226562 11.921875 C 9.8156562 12.017875 9.9450781 12.070312 10.080078 12.070312 L 13.882812 12.070312 C 14.158812 12.070312 14.382812 11.846312 14.382812 11.570312 L 14.382812 11.466797 C 14.385812 11.048797 14.393937 9.8132969 14.335938 7.9042969 C 14.660938 7.9022969 14.983594 7.9023438 15.308594 7.9023438 C 15.184594 14.425344 15.231672 15.741234 15.263672 16.615234 C 15.273672 16.903234 15.283203 17.144625 15.283203 17.515625 C 15.283203 17.760625 15.459359 17.965812 15.693359 18.007812 C 15.409359 18.301812 15.062891 18.630359 14.837891 18.818359 C 14.610891 18.630359 14.258703 18.301813 13.970703 18.007812 C 14.200703 17.962813 14.372094 17.758578 14.371094 17.517578 C 14.371094 16.290578 14.397063 14.311422 14.414062 13.482422 C 14.415062 13.407422 14.410531 13.343266 14.394531 13.197266 C 14.394531 12.921266 14.170531 12.697266 13.894531 12.697266 L 10.107422 12.697266 C 9.8314219 12.697266 9.6074219 12.921266 9.6074219 13.197266 L 9.6054688 13.369141 C 9.6024688 13.863141 9.5971562 14.983625 9.6601562 16.390625 L 8.6953125 16.388672 L 8.7011719 16.214844 C 8.7461719 14.604844 8.8186406 12.172813 8.6816406 6.6328125 L 8.6816406 6.4824219 C 8.6816406 6.2474219 8.5198281 6.0490937 8.2988281 5.9960938 C 8.5948281 5.6980937 8.9555469 5.3657344 9.1855469 5.1777344 z"/>
+                      </svg>
+                    </a>
+                  {/if}
                 </div>
               </div>
 
@@ -261,21 +272,42 @@
 
     <!-- Skills Section -->
     {#if skills.length > 0}
-      <section id="skills" class="py-16 md:py-24 bg-black">
-        <div class="container mx-auto px-4 max-w-6xl">
-          <h2 class="section-title text-center mb-12">Skills</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {#each skills as skill}
-              <div class="card">
-                <h3 class="text-xl font-semibold mb-2 text-white">{skill.name}</h3>
-                <p class="text-gray-400 mb-3">{skill.category}</p>
-                <div class="w-full bg-zinc-900 rounded-full h-2.5">
-                  <div class="bg-primary-500 h-2.5 rounded-full transition-all duration-500" style="width: {skill.proficiency}%"></div>
-                </div>
-                <p class="text-sm text-gray-500 mt-2">{skill.proficiency}%</p>
-              </div>
+      <section id="skills" class="py-20 bg-zinc-950/30">
+        <div class="container mx-auto px-4">
+          <h2 class="section-title text-center mb-12">Technical Arsenal</h2>
+
+          <!-- Category Filter -->
+          <div class="flex flex-wrap justify-center gap-2 mb-10">
+            {#each categories as category}
+              <button
+                on:click={() => selectedCategory = category}
+                class="px-4 py-1.5 text-sm font-medium transition-colors duration-200 {selectedCategory === category ? 'text-primary-500 border-b-2 border-primary-500' : 'text-gray-400 hover:text-gray-300'}"
+              >
+                {category}
+              </button>
             {/each}
           </div>
+
+          {#if skills.filter(s => selectedCategory === 'All' || s.category.toLowerCase() === selectedCategory.toLowerCase()).length > 0}
+            <div class="max-w-5xl mx-auto">
+              <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {#each skills.filter(s => selectedCategory === 'All' || s.category.toLowerCase() === selectedCategory.toLowerCase()) as skill}
+                  <div class="group">
+                    <div class="flex flex-col items-center justify-center p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg hover:border-primary-500/50 transition-all hover:scale-105">
+                      {#if skill.icon_image}
+                        <img src={skill.icon_image} alt={skill.name} class="w-12 h-12 mb-2 object-contain" />
+                      {:else if skill.icon}
+                        <span class="text-3xl mb-2">{skill.icon}</span>
+                      {/if}
+                      <h3 class="text-sm font-medium text-white text-center">{skill.name}</h3>
+                    </div>
+                  </div>
+                {/each}
+              </div>
+            </div>
+          {:else}
+            <p class="text-center text-gray-400">No skills available for this category.</p>
+          {/if}
         </div>
       </section>
     {/if}

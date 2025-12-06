@@ -9,7 +9,7 @@ class HeroAdmin(admin.ModelAdmin):
 
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'proficiency', 'order')
+    list_display = ('name', 'category', 'order')
     list_filter = ('category',)
 
 

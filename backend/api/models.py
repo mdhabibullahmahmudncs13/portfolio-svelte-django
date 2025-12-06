@@ -13,6 +13,7 @@ class Hero(models.Model):
     github_url = models.URLField(max_length=500, blank=True)
     linkedin_url = models.URLField(max_length=500, blank=True)
     twitter_url = models.URLField(max_length=500, blank=True)
+    hackerrank_url = models.URLField(max_length=500, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -24,10 +25,18 @@ class Hero(models.Model):
 
 
 class Skill(models.Model):
+    CATEGORY_CHOICES = [
+        ('language', 'Language'),
+        ('framework', 'Framework'),
+        ('tool', 'Tool'),
+        ('platform', 'Platform'),
+        ('other', 'Other'),
+    ]
+    
     name = models.CharField(max_length=100)
-    category = models.CharField(max_length=100)
-    proficiency = models.IntegerField(default=0)  # 0-100
-    icon = models.CharField(max_length=50, blank=True)
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, default='other')
+    icon = models.CharField(max_length=50, blank=True, help_text='Emoji or text icon')
+    icon_image = models.ImageField(upload_to='skills/icons/', null=True, blank=True, help_text='Upload icon image (optional)')
     order = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

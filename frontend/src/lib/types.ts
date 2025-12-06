@@ -10,14 +10,15 @@ export interface Hero {
   github_url?: string;
   linkedin_url?: string;
   twitter_url?: string;
+  hackerrank_url?: string;
 }
 
 export interface Skill {
   id?: number;
   name: string;
   category: string;
-  proficiency: number;
   icon?: string;
+  icon_image?: string;
   order: number;
 }
 
