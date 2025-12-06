@@ -59,3 +59,28 @@
     @apply text-4xl md:text-5xl font-bold mb-4 text-white;
   }
 }
+
+@layer utilities {
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll-left {
+    animation: scroll-left 15s linear infinite;
+  }
+  
+  @media (max-width: 768px) {
+    .animate-scroll-left {
+      animation: scroll-left 5s linear infinite;
+    }
+  }
+
+  .animate-scroll-left:hover {
+    animation-play-state: paused;
+  }
+}

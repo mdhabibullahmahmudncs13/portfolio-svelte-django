@@ -34,6 +34,7 @@
   // Skills category filter
   let selectedCategory = 'All';
   const categories = ['All', 'Language', 'Framework', 'Tool', 'Platform', 'Other'];
+  let showAllSkills = false;
 
   onMount(async () => {
     try {
@@ -289,22 +290,91 @@
           </div>
 
           {#if skills.filter(s => selectedCategory === 'All' || s.category.toLowerCase() === selectedCategory.toLowerCase()).length > 0}
-            <div class="max-w-5xl mx-auto">
-              <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {#each skills.filter(s => selectedCategory === 'All' || s.category.toLowerCase() === selectedCategory.toLowerCase()) as skill}
-                  <div class="group">
-                    <div class="flex flex-col items-center justify-center p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg hover:border-primary-500/50 transition-all hover:scale-105">
-                      {#if skill.icon_image}
-                        <img src={skill.icon_image} alt={skill.name} class="w-12 h-12 mb-2 object-contain" />
-                      {:else if skill.icon}
-                        <span class="text-3xl mb-2">{skill.icon}</span>
-                      {/if}
-                      <h3 class="text-sm font-medium text-white text-center">{skill.name}</h3>
+            {#if !showAllSkills && selectedCategory === 'All'}
+              <!-- Scrolling Animation for Default "All" state -->
+              <div class="max-w-full mx-auto overflow-hidden">
+                <div class="flex animate-scroll-left">
+                  <!-- First set of skills -->
+                  {#each skills as skill}
+                    <div class="flex-shrink-0 mx-2">
+                      <div class="flex flex-col items-center justify-center p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg hover:border-primary-500/50 transition-all hover:scale-105 w-32">
+                        {#if skill.icon_image}
+                          <img src={skill.icon_image} alt={skill.name} class="w-12 h-12 mb-2 object-contain" />
+                        {:else if skill.icon}
+                          <span class="text-3xl mb-2">{skill.icon}</span>
+                        {/if}
+                        <h3 class="text-sm font-medium text-white text-center">{skill.name}</h3>
+                      </div>
                     </div>
-                  </div>
-                {/each}
+                  {/each}
+                  <!-- Duplicate set for seamless loop -->
+                  {#each skills as skill}
+                    <div class="flex-shrink-0 mx-2">
+                      <div class="flex flex-col items-center justify-center p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg hover:border-primary-500/50 transition-all hover:scale-105 w-32">
+                        {#if skill.icon_image}
+                          <img src={skill.icon_image} alt={skill.name} class="w-12 h-12 mb-2 object-contain" />
+                        {:else if skill.icon}
+                          <span class="text-3xl mb-2">{skill.icon}</span>
+                        {/if}
+                        <h3 class="text-sm font-medium text-white text-center">{skill.name}</h3>
+                      </div>
+                    </div>
+                  {/each}
+                </div>
               </div>
-            </div>
+              
+              <!-- View All Button for scrolling state -->
+              <div class="flex justify-center mt-8">
+                <button
+                  on:click={() => showAllSkills = !showAllSkills}
+                  class="px-6 py-2 bg-zinc-900 border border-zinc-800 text-gray-300 rounded-lg hover:bg-zinc-800 hover:border-primary-500 transition-all"
+                >
+                  View All
+                </button>
+              </div>
+            {:else}
+              <!-- Grid View (for "View All" clicked or other categories) -->
+              <div class="max-w-5xl mx-auto">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {#each (showAllSkills ? skills.filter(s => selectedCategory === 'All' || s.category.toLowerCase() === selectedCategory.toLowerCase()) : skills.filter(s => selectedCategory === 'All' || s.category.toLowerCase() === selectedCategory.toLowerCase()).slice(0, 4)) as skill}
+                    <div class="group">
+                      <div class="flex flex-col items-center justify-center p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg hover:border-primary-500/50 transition-all hover:scale-105">
+                        {#if skill.icon_image}
+                          <img src={skill.icon_image} alt={skill.name} class="w-12 h-12 mb-2 object-contain" />
+                        {:else if skill.icon}
+                          <span class="text-3xl mb-2">{skill.icon}</span>
+                        {/if}
+                        <h3 class="text-sm font-medium text-white text-center">{skill.name}</h3>
+                      </div>
+                    </div>
+                  {/each}
+                </div>
+
+                <!-- Show Less Button (only for "All" category when expanded) -->
+                {#if selectedCategory === 'All' && showAllSkills}
+                  <div class="flex justify-center mt-8">
+                    <button
+                      on:click={() => showAllSkills = !showAllSkills}
+                      class="px-6 py-2 bg-zinc-900 border border-zinc-800 text-gray-300 rounded-lg hover:bg-zinc-800 hover:border-primary-500 transition-all"
+                    >
+                      Show Less
+                    </button>
+                  </div>
+                {/if}
+                
+                <!-- View All Button for other categories -->
+                {#if selectedCategory !== 'All' && skills.filter(s => s.category.toLowerCase() === selectedCategory.toLowerCase()).length > 4}
+                  <div class="flex justify-center mt-8">
+                    <button
+                      on:click={() => showAllSkills = !showAllSkills}
+                      class="px-6 py-2 bg-zinc-900 border border-zinc-800 text-gray-300 rounded-lg hover:bg-zinc-800 hover:border-primary-500 transition-all"
+                    >
+                      {showAllSkills ? 'Show Less' : 'View All'}
+                    </button>
+                  </div>
+                {/if}
+              </div>
+            {/if}
           {:else}
             <p class="text-center text-gray-400">No skills available for this category.</p>
           {/if}
@@ -419,7 +489,7 @@
               if (showAllCertificates) return c.category === 'certificate';
               if (showAllParticipation) return c.category === 'participation';
               return true;
-            }).slice(0, showAllCertifications ? certifications.length : 3) as cert}
+            }).slice(0, (showAllCertifications || showAllAchievements || showAllCertificates || showAllParticipation) ? certifications.length : 3) as cert}
               <div class="card group {cert.category === 'achievements' ? 'border-yellow-500/20 hover:border-yellow-500/50' : cert.category === 'certificate' ? 'border-blue-500/20 hover:border-blue-500/50' : 'border-green-500/20 hover:border-green-500/50'}">
                 {#if cert.image_url}
                   <div class="mb-4 rounded-lg overflow-hidden border border-zinc-800 transition-colors {cert.category === 'achievements' ? 'group-hover:border-yellow-500/50' : cert.category === 'certificate' ? 'group-hover:border-blue-500/50' : 'group-hover:border-green-500/50'}">
