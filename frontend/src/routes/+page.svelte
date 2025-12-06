@@ -29,6 +29,7 @@
   let showAllAchievements = false;
   let showAllCertificates = false;
   let showAllParticipation = false;
+  let showAllCertifications = false;
 
   onMount(async () => {
     try {
@@ -394,14 +395,14 @@
           <!-- Category Tabs -->
           <div class="flex flex-wrap justify-center gap-3 mb-12">
             <button 
-              on:click={() => { showAllAchievements = false; showAllCertificates = false; showAllParticipation = false; }}
+              on:click={() => { showAllAchievements = false; showAllCertificates = false; showAllParticipation = false; showAllCertifications = false; }}
               class="px-6 py-2.5 rounded-lg font-semibold transition-all {!showAllAchievements && !showAllCertificates && !showAllParticipation ? 'bg-primary-500 text-black' : 'bg-zinc-900 text-gray-400 hover:bg-zinc-800 hover:text-primary-400'}"
             >
               All
             </button>
             {#if certifications.filter(c => c.category === 'achievements').length > 0}
               <button 
-                on:click={() => { showAllAchievements = true; showAllCertificates = false; showAllParticipation = false; }}
+                on:click={() => { showAllAchievements = true; showAllCertificates = false; showAllParticipation = false; showAllCertifications = false; }}
                 class="px-6 py-2.5 rounded-lg font-semibold transition-all {showAllAchievements ? 'bg-yellow-500 text-black' : 'bg-zinc-900 text-gray-400 hover:bg-zinc-800 hover:text-yellow-400'}"
               >
                 Achievements ({certifications.filter(c => c.category === 'achievements').length})
@@ -409,7 +410,7 @@
             {/if}
             {#if certifications.filter(c => c.category === 'certificate').length > 0}
               <button 
-                on:click={() => { showAllAchievements = false; showAllCertificates = true; showAllParticipation = false; }}
+                on:click={() => { showAllAchievements = false; showAllCertificates = true; showAllParticipation = false; showAllCertifications = false; }}
                 class="px-6 py-2.5 rounded-lg font-semibold transition-all {showAllCertificates ? 'bg-blue-500 text-black' : 'bg-zinc-900 text-gray-400 hover:bg-zinc-800 hover:text-blue-400'}"
               >
                 Certificates ({certifications.filter(c => c.category === 'certificate').length})
@@ -417,7 +418,7 @@
             {/if}
             {#if certifications.filter(c => c.category === 'participation').length > 0}
               <button 
-                on:click={() => { showAllAchievements = false; showAllCertificates = false; showAllParticipation = true; }}
+                on:click={() => { showAllAchievements = false; showAllCertificates = false; showAllParticipation = true; showAllCertifications = false; }}
                 class="px-6 py-2.5 rounded-lg font-semibold transition-all {showAllParticipation ? 'bg-green-500 text-black' : 'bg-zinc-900 text-gray-400 hover:bg-zinc-800 hover:text-green-400'}"
               >
                 Participation ({certifications.filter(c => c.category === 'participation').length})
@@ -427,7 +428,7 @@
 
           <!-- Certifications Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {#each certifications.filter(c => {
+            {#each (showAllCertifications ? certifications : certifications.slice(0, 3)).filter(c => {
               if (showAllAchievements) return c.category === 'achievements';
               if (showAllCertificates) return c.category === 'certificate';
               if (showAllParticipation) return c.category === 'participation';
@@ -469,6 +470,18 @@
               </div>
             {/each}
           </div>
+          
+          <!-- View All Button -->
+          {#if certifications.length > 3 && !showAllAchievements && !showAllCertificates && !showAllParticipation}
+            <div class="flex justify-center mt-8">
+              <button 
+                on:click={() => showAllCertifications = !showAllCertifications}
+                class="px-8 py-3 bg-primary-500/10 border border-primary-500/30 text-primary-500 rounded-lg hover:bg-primary-500/20 hover:border-primary-500/50 transition-all font-semibold"
+              >
+                {showAllCertifications ? 'Show Less' : `View All Certifications (${certifications.length})`}
+              </button>
+            </div>
+          {/if}
         </div>
       </section>
     {/if}
