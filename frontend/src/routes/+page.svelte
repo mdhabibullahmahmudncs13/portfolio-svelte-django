@@ -359,7 +359,7 @@
                 on:click={() => { showAllAchievements = true; showAllCertificates = false; showAllParticipation = false; showAllCertifications = false; }}
                 class="px-6 py-2.5 rounded-lg font-semibold transition-all {showAllAchievements ? 'bg-yellow-500 text-black' : 'bg-zinc-900 text-gray-400 hover:bg-zinc-800 hover:text-yellow-400'}"
               >
-                Achievements ({certifications.filter(c => c.category === 'achievements').length})
+                Achievements
               </button>
             {/if}
             {#if certifications.filter(c => c.category === 'certificate').length > 0}
@@ -367,7 +367,7 @@
                 on:click={() => { showAllAchievements = false; showAllCertificates = true; showAllParticipation = false; showAllCertifications = false; }}
                 class="px-6 py-2.5 rounded-lg font-semibold transition-all {showAllCertificates ? 'bg-blue-500 text-black' : 'bg-zinc-900 text-gray-400 hover:bg-zinc-800 hover:text-blue-400'}"
               >
-                Certificates ({certifications.filter(c => c.category === 'certificate').length})
+                Certificates
               </button>
             {/if}
             {#if certifications.filter(c => c.category === 'participation').length > 0}
@@ -375,19 +375,19 @@
                 on:click={() => { showAllAchievements = false; showAllCertificates = false; showAllParticipation = true; showAllCertifications = false; }}
                 class="px-6 py-2.5 rounded-lg font-semibold transition-all {showAllParticipation ? 'bg-green-500 text-black' : 'bg-zinc-900 text-gray-400 hover:bg-zinc-800 hover:text-green-400'}"
               >
-                Participation ({certifications.filter(c => c.category === 'participation').length})
+                Participation
               </button>
             {/if}
           </div>
 
           <!-- Certifications Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {#each (showAllCertifications ? certifications : certifications.slice(0, 3)).filter(c => {
+            {#each certifications.filter(c => {
               if (showAllAchievements) return c.category === 'achievements';
               if (showAllCertificates) return c.category === 'certificate';
               if (showAllParticipation) return c.category === 'participation';
               return true;
-            }) as cert}
+            }).slice(0, showAllCertifications ? certifications.length : 3) as cert}
               <div class="card group {cert.category === 'achievements' ? 'border-yellow-500/20 hover:border-yellow-500/50' : cert.category === 'certificate' ? 'border-blue-500/20 hover:border-blue-500/50' : 'border-green-500/20 hover:border-green-500/50'}">
                 {#if cert.image_url}
                   <div class="mb-4 rounded-lg overflow-hidden border border-zinc-800 transition-colors {cert.category === 'achievements' ? 'group-hover:border-yellow-500/50' : cert.category === 'certificate' ? 'group-hover:border-blue-500/50' : 'group-hover:border-green-500/50'}">
