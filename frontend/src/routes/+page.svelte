@@ -391,143 +391,84 @@
         <div class="container mx-auto px-4 max-w-6xl">
           <h2 class="section-title text-center mb-12">Certifications</h2>
           
-          <!-- Achievements -->
-          {#if certifications.filter(c => c.category === 'achievements').length > 0}
-            <div class="mb-16">
-              <div class="flex items-center gap-3 mb-8">
-                <div class="h-px flex-1 bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent"></div>
-                <h3 class="text-2xl font-bold text-yellow-500">Achievements</h3>
-                <div class="h-px flex-1 bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent"></div>
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {#each (showAllAchievements ? certifications.filter(c => c.category === 'achievements') : certifications.filter(c => c.category === 'achievements').slice(0, 3)) as cert}
-                  <div class="card group border-yellow-500/20 hover:border-yellow-500/50">
-                    {#if cert.image_url}
-                      <div class="mb-4 rounded-lg overflow-hidden border border-zinc-800 group-hover:border-yellow-500/50 transition-colors">
-                        <img 
-                          src={cert.image_url} 
-                          alt={cert.name}
-                          class="w-full h-48 object-cover"
-                        />
-                      </div>
-                    {/if}
-                    <h3 class="text-xl font-semibold mb-2 text-white group-hover:text-yellow-400 transition-colors">{cert.name}</h3>
-                    <p class="text-gray-300 mb-2">{cert.issuer}</p>
-                    <p class="text-sm text-gray-500 mb-3">
-                      Issued: {new Date(cert.issue_date).toLocaleDateString()}
-                    </p>
-                    {#if cert.credential_url}
-                      <a href={cert.credential_url} target="_blank" rel="noopener" class="text-yellow-500 hover:text-yellow-400 transition-colors text-sm font-medium">
-                        View Credential →
-                      </a>
-                    {/if}
-                  </div>
-                {/each}
-              </div>
-              {#if certifications.filter(c => c.category === 'achievements').length > 3}
-                <div class="flex justify-center mt-8">
-                  <button 
-                    on:click={() => showAllAchievements = !showAllAchievements}
-                    class="px-6 py-3 bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 rounded-lg hover:bg-yellow-500/20 hover:border-yellow-500/50 transition-all font-medium"
-                  >
-                    {showAllAchievements ? 'Show Less' : `View All (${certifications.filter(c => c.category === 'achievements').length})`}
-                  </button>
-                </div>
-              {/if}
-            </div>
-          {/if}
+          <!-- Category Tabs -->
+          <div class="flex flex-wrap justify-center gap-3 mb-12">
+            <button 
+              on:click={() => { showAllAchievements = false; showAllCertificates = false; showAllParticipation = false; }}
+              class="px-6 py-2.5 rounded-lg font-semibold transition-all {!showAllAchievements && !showAllCertificates && !showAllParticipation ? 'bg-primary-500 text-black' : 'bg-zinc-900 text-gray-400 hover:bg-zinc-800 hover:text-primary-400'}"
+            >
+              All
+            </button>
+            {#if certifications.filter(c => c.category === 'achievements').length > 0}
+              <button 
+                on:click={() => { showAllAchievements = true; showAllCertificates = false; showAllParticipation = false; }}
+                class="px-6 py-2.5 rounded-lg font-semibold transition-all {showAllAchievements ? 'bg-yellow-500 text-black' : 'bg-zinc-900 text-gray-400 hover:bg-zinc-800 hover:text-yellow-400'}"
+              >
+                Achievements ({certifications.filter(c => c.category === 'achievements').length})
+              </button>
+            {/if}
+            {#if certifications.filter(c => c.category === 'certificate').length > 0}
+              <button 
+                on:click={() => { showAllAchievements = false; showAllCertificates = true; showAllParticipation = false; }}
+                class="px-6 py-2.5 rounded-lg font-semibold transition-all {showAllCertificates ? 'bg-blue-500 text-black' : 'bg-zinc-900 text-gray-400 hover:bg-zinc-800 hover:text-blue-400'}"
+              >
+                Certificates ({certifications.filter(c => c.category === 'certificate').length})
+              </button>
+            {/if}
+            {#if certifications.filter(c => c.category === 'participation').length > 0}
+              <button 
+                on:click={() => { showAllAchievements = false; showAllCertificates = false; showAllParticipation = true; }}
+                class="px-6 py-2.5 rounded-lg font-semibold transition-all {showAllParticipation ? 'bg-green-500 text-black' : 'bg-zinc-900 text-gray-400 hover:bg-zinc-800 hover:text-green-400'}"
+              >
+                Participation ({certifications.filter(c => c.category === 'participation').length})
+              </button>
+            {/if}
+          </div>
 
-          <!-- Certificates -->
-          {#if certifications.filter(c => c.category === 'certificate').length > 0}
-            <div class="mb-16">
-              <div class="flex items-center gap-3 mb-8">
-                <div class="h-px flex-1 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
-                <h3 class="text-2xl font-bold text-blue-500">Certificates</h3>
-                <div class="h-px flex-1 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {#each (showAllCertificates ? certifications.filter(c => c.category === 'certificate') : certifications.filter(c => c.category === 'certificate').slice(0, 3)) as cert}
-                  <div class="card group border-blue-500/20 hover:border-blue-500/50">
-                    {#if cert.image_url}
-                      <div class="mb-4 rounded-lg overflow-hidden border border-zinc-800 group-hover:border-blue-500/50 transition-colors">
-                        <img 
-                          src={cert.image_url} 
-                          alt={cert.name}
-                          class="w-full h-48 object-cover"
-                        />
-                      </div>
-                    {/if}
-                    <h3 class="text-xl font-semibold mb-2 text-white group-hover:text-blue-400 transition-colors">{cert.name}</h3>
-                    <p class="text-gray-300 mb-2">{cert.issuer}</p>
-                    <p class="text-sm text-gray-500 mb-3">
-                      Issued: {new Date(cert.issue_date).toLocaleDateString()}
-                    </p>
-                    {#if cert.credential_url}
-                      <a href={cert.credential_url} target="_blank" rel="noopener" class="text-blue-500 hover:text-blue-400 transition-colors text-sm font-medium">
-                        View Credential →
-                      </a>
-                    {/if}
+          <!-- Certifications Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {#each certifications.filter(c => {
+              if (showAllAchievements) return c.category === 'achievements';
+              if (showAllCertificates) return c.category === 'certificate';
+              if (showAllParticipation) return c.category === 'participation';
+              return true;
+            }) as cert}
+              <div class="card group {cert.category === 'achievements' ? 'border-yellow-500/20 hover:border-yellow-500/50' : cert.category === 'certificate' ? 'border-blue-500/20 hover:border-blue-500/50' : 'border-green-500/20 hover:border-green-500/50'}">
+                {#if cert.image_url}
+                  <div class="mb-4 rounded-lg overflow-hidden border border-zinc-800 transition-colors {cert.category === 'achievements' ? 'group-hover:border-yellow-500/50' : cert.category === 'certificate' ? 'group-hover:border-blue-500/50' : 'group-hover:border-green-500/50'}">
+                    <img 
+                      src={cert.image_url} 
+                      alt={cert.name}
+                      class="w-full h-48 object-cover"
+                    />
                   </div>
-                {/each}
+                {/if}
+                {#if cert.category === 'achievements'}
+                  <span class="inline-block px-2 py-1 mb-3 rounded text-xs font-semibold uppercase bg-yellow-500/10 text-yellow-500 border border-yellow-500/30">
+                    Achievement
+                  </span>
+                {:else if cert.category === 'certificate'}
+                  <span class="inline-block px-2 py-1 mb-3 rounded text-xs font-semibold uppercase bg-blue-500/10 text-blue-500 border border-blue-500/30">
+                    Certificate
+                  </span>
+                {:else if cert.category === 'participation'}
+                  <span class="inline-block px-2 py-1 mb-3 rounded text-xs font-semibold uppercase bg-green-500/10 text-green-500 border border-green-500/30">
+                    Participation
+                  </span>
+                {/if}
+                <h3 class="text-xl font-semibold mb-2 text-white transition-colors {cert.category === 'achievements' ? 'group-hover:text-yellow-400' : cert.category === 'certificate' ? 'group-hover:text-blue-400' : 'group-hover:text-green-400'}">{cert.name}</h3>
+                <p class="text-gray-300 mb-2">{cert.issuer}</p>
+                <p class="text-sm text-gray-500 mb-3">
+                  Issued: {new Date(cert.issue_date).toLocaleDateString()}
+                </p>
+                {#if cert.credential_url}
+                  <a href={cert.credential_url} target="_blank" rel="noopener" class="text-sm font-medium transition-colors {cert.category === 'achievements' ? 'text-yellow-500 hover:text-yellow-400' : cert.category === 'certificate' ? 'text-blue-500 hover:text-blue-400' : 'text-green-500 hover:text-green-400'}">
+                    View Credential →
+                  </a>
+                {/if}
               </div>
-              {#if certifications.filter(c => c.category === 'certificate').length > 3}
-                <div class="flex justify-center mt-8">
-                  <button 
-                    on:click={() => showAllCertificates = !showAllCertificates}
-                    class="px-6 py-3 bg-blue-500/10 border border-blue-500/30 text-blue-500 rounded-lg hover:bg-blue-500/20 hover:border-blue-500/50 transition-all font-medium"
-                  >
-                    {showAllCertificates ? 'Show Less' : `View All (${certifications.filter(c => c.category === 'certificate').length})`}
-                  </button>
-                </div>
-              {/if}
-            </div>
-          {/if}
-
-          <!-- Participation -->
-          {#if certifications.filter(c => c.category === 'participation').length > 0}
-            <div>
-              <div class="flex items-center gap-3 mb-8">
-                <div class="h-px flex-1 bg-gradient-to-r from-transparent via-green-500/50 to-transparent"></div>
-                <h3 class="text-2xl font-bold text-green-500">Participation</h3>
-                <div class="h-px flex-1 bg-gradient-to-r from-transparent via-green-500/50 to-transparent"></div>
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {#each (showAllParticipation ? certifications.filter(c => c.category === 'participation') : certifications.filter(c => c.category === 'participation').slice(0, 3)) as cert}
-                  <div class="card group border-green-500/20 hover:border-green-500/50">
-                    {#if cert.image_url}
-                      <div class="mb-4 rounded-lg overflow-hidden border border-zinc-800 group-hover:border-green-500/50 transition-colors">
-                        <img 
-                          src={cert.image_url} 
-                          alt={cert.name}
-                          class="w-full h-48 object-cover"
-                        />
-                      </div>
-                    {/if}
-                    <h3 class="text-xl font-semibold mb-2 text-white group-hover:text-green-400 transition-colors">{cert.name}</h3>
-                    <p class="text-gray-300 mb-2">{cert.issuer}</p>
-                    <p class="text-sm text-gray-500 mb-3">
-                      Issued: {new Date(cert.issue_date).toLocaleDateString()}
-                    </p>
-                    {#if cert.credential_url}
-                      <a href={cert.credential_url} target="_blank" rel="noopener" class="text-green-500 hover:text-green-400 transition-colors text-sm font-medium">
-                        View Credential →
-                      </a>
-                    {/if}
-                  </div>
-                {/each}
-              </div>
-              {#if certifications.filter(c => c.category === 'participation').length > 3}
-                <div class="flex justify-center mt-8">
-                  <button 
-                    on:click={() => showAllParticipation = !showAllParticipation}
-                    class="px-6 py-3 bg-green-500/10 border border-green-500/30 text-green-500 rounded-lg hover:bg-green-500/20 hover:border-green-500/50 transition-all font-medium"
-                  >
-                    {showAllParticipation ? 'Show Less' : `View All (${certifications.filter(c => c.category === 'participation').length})`}
-                  </button>
-                </div>
-              {/if}
-            </div>
-          {/if}
+            {/each}
+          </div>
         </div>
       </section>
     {/if}
