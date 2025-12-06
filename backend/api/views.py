@@ -1,11 +1,11 @@
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Hero, Skill, Project, Experience, Certification, Contact, Message, BlogPost
+from .models import Hero, Skill, Project, Experience, Certification, Contact, Message, BlogPost, ExtraCurricularActivity
 from .serializers import (
     HeroSerializer, SkillSerializer, ProjectSerializer,
     ExperienceSerializer, CertificationSerializer,
-    ContactSerializer, MessageSerializer, BlogPostSerializer
+    ContactSerializer, MessageSerializer, BlogPostSerializer, ExtraCurricularActivitySerializer
 )
 
 
@@ -105,3 +105,9 @@ class BlogPostViewSet(viewsets.ModelViewSet):
         if not self.request.user.is_staff:
             queryset = queryset.filter(published=True)
         return queryset
+
+
+class ExtraCurricularActivityViewSet(viewsets.ModelViewSet):
+    queryset = ExtraCurricularActivity.objects.all()
+    serializer_class = ExtraCurricularActivitySerializer
+    permission_classes = [IsAdminOrReadOnly]

@@ -229,3 +229,28 @@ export async function deleteBlogPost(slug: string) {
     method: 'DELETE'
   });
 }
+
+// Extra Curricular Activities
+export async function getActivities() {
+  return fetchAPI('/activities/');
+}
+
+export async function createActivity(data: any) {
+  return fetchAPI('/activities/', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
+}
+
+export async function updateActivity(id: number, data: any) {
+  return fetchAPI(`/activities/${id}/`, {
+    method: 'PUT',
+    body: JSON.stringify(data)
+  });
+}
+
+export async function deleteActivity(id: number) {
+  return fetchAPI(`/activities/${id}/`, {
+    method: 'DELETE'
+  });
+}

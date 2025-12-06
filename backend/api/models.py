@@ -84,10 +84,10 @@ class Experience(models.Model):
 class Certification(models.Model):
     name = models.CharField(max_length=200)
     issuer = models.CharField(max_length=200)
-    cert_type = models.CharField(max_length=50, choices=[
+    category = models.CharField(max_length=50, choices=[
+        ('achievements', 'Achievements'),
         ('certificate', 'Certificate'),
-        ('course', 'Course'),
-        ('license', 'License')
+        ('participation', 'Participation')
     ], default='certificate')
     issue_date = models.DateField()
     expiry_date = models.DateField(null=True, blank=True)
@@ -150,3 +150,25 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ExtraCurricularActivity(models.Model):
+    title = models.CharField(max_length=200)
+    organization = models.CharField(max_length=200)
+    role = models.CharField(max_length=200)
+    description = models.TextField()
+    start_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
+    current = models.BooleanField(default=False)
+    image_url = models.ImageField(upload_to='activities/', null=True, blank=True)
+    achievements = models.JSONField(default=list)
+    order = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order', '-start_date']
+        verbose_name_plural = "Extra Curricular Activities"
+
+    def __str__(self):
+        return f"{self.role} at {self.organization}"

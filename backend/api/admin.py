@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Hero, Skill, Project, Experience, Certification, Contact, Message, BlogPost
+from .models import Hero, Skill, Project, Experience, Certification, Contact, Message, BlogPost, ExtraCurricularActivity
 
 
 @admin.register(Hero)
@@ -27,8 +27,8 @@ class ExperienceAdmin(admin.ModelAdmin):
 
 @admin.register(Certification)
 class CertificationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'issuer', 'cert_type', 'issue_date', 'expiry_date')
-    list_filter = ('cert_type',)
+    list_display = ('name', 'issuer', 'category', 'issue_date', 'expiry_date')
+    list_filter = ('category',)
 
 
 @admin.register(Contact)
@@ -48,3 +48,10 @@ class BlogPostAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug', 'published', 'created_at')
     list_filter = ('published', 'created_at')
     prepopulated_fields = {'slug': ('title',)}
+
+
+@admin.register(ExtraCurricularActivity)
+class ExtraCurricularActivityAdmin(admin.ModelAdmin):
+    list_display = ('title', 'organization', 'role', 'start_date', 'end_date', 'current', 'order')
+    list_filter = ('current', 'organization')
+    ordering = ('order', '-start_date')

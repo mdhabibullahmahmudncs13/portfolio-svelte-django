@@ -11,6 +11,7 @@ router.register(r'certifications', views.CertificationViewSet)
 router.register(r'contact', views.ContactViewSet)
 router.register(r'messages', views.MessageViewSet)
 router.register(r'blog', views.BlogPostViewSet)
+router.register(r'activities', views.ExtraCurricularActivityViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Hero, Skill, Project, Experience, Certification, Contact, Message, BlogPost
+from .models import Hero, Skill, Project, Experience, Certification, Contact, Message, BlogPost, ExtraCurricularActivity
 
 
 class HeroSerializer(serializers.ModelSerializer):
@@ -59,4 +59,12 @@ class BlogPostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BlogPost
+        fields = '__all__'
+
+
+class ExtraCurricularActivitySerializer(serializers.ModelSerializer):
+    image_url = serializers.ImageField(required=False, allow_null=True)
+
+    class Meta:
+        model = ExtraCurricularActivity
         fields = '__all__'

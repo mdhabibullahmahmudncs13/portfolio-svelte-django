@@ -53,7 +53,7 @@ export interface Certification {
   id?: number;
   name: string;
   issuer: string;
-  cert_type: 'certificate' | 'course' | 'license';
+  category: 'achievements' | 'certificate' | 'participation';
   issue_date: string;
   expiry_date?: string;
   credential_id?: string;
@@ -90,4 +90,18 @@ export interface BlogPost {
   published: boolean;
   created_at?: string;
   updated_at?: string;
+}
+
+export interface ExtraCurricularActivity {
+  id?: number;
+  title: string;
+  organization: string;
+  role: string;
+  description: string;
+  start_date: string;
+  end_date?: string;
+  current: boolean;
+  image_url?: string;
+  achievements: string[];
+  order: number;
 }
