@@ -60,16 +60,18 @@ Served in a dual leadership capacity at NITER Computer Club, combining organizat
 - **Tailwind CSS** - Utility-first CSS framework
 
 ### Development Tools
-- **Visual Studio Code** - Primary code editor
+- **VS Code** - Primary code editor
 - **Vim** - Terminal-based text editing
 - **WebStorm** - JavaScript and web development IDE
 - **PyCharm** - Python development IDE
 
-### Platforms & Other Technologies
+### Platforms & Technologies
 - **Linux** - Primary development environment
 - **Docker** - Containerization and deployment
 - **Git** - Version control and collaboration
 - **Appwrite** - Backend-as-a-Service platform
+- **MongoDB** - NoSQL database for modern applications
+- **SQL** - Relational database management and queries
 
 ---
 
