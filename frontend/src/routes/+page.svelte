@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import * as api from '$lib/api';
+  import { getMediaUrl } from '$lib/api';
   import type { Hero, Skill, Project, Experience, Certification, Contact, BlogPost, ExtraCurricularActivity } from '$lib/types';
 
   let hero: Hero | null = null;
@@ -73,18 +74,7 @@
     formError = '';
 
     try {
-      const response = await fetch('http://localhost:8000/api/messages/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to send message');
-      }
-
+      await api.createMessage(formData);
       formSuccess = true;
       formData = { name: '', email: '', subject: '', message: '' };
       
@@ -92,7 +82,8 @@
         formSuccess = false;
       }, 5000);
     } catch (err) {
-      formError = err instanceof Error ? err.message : 'Failed to send message';
+      formError = err instanceof Error ? err.message : 'Failed to send message. Please try again.';
+      console.error('Contact form error:', err);
     } finally {
       formSubmitting = false;
     }
@@ -196,7 +187,7 @@
                     </svg>
                   </a>
                   {#if hero.resume_url}
-                    <a href={hero.resume_url} target="_blank" rel="noopener" class="group inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-zinc-800 text-gray-300 text-base font-semibold rounded-lg hover:bg-zinc-900 hover:border-primary-500 transition-all hover:scale-105">
+                    <a href={getMediaUrl(hero.resume_url)} target="_blank" rel="noopener" class="group inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-zinc-800 text-gray-300 text-base font-semibold rounded-lg hover:bg-zinc-900 hover:border-primary-500 transition-all hover:scale-105">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                       </svg>
@@ -299,7 +290,7 @@
                     <div class="flex-shrink-0 mx-2">
                       <div class="flex flex-col items-center justify-center p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg hover:border-primary-500/50 transition-all hover:scale-105 w-32">
                         {#if skill.icon_image}
-                          <img src={skill.icon_image} alt={skill.name} class="w-12 h-12 mb-2 object-contain" />
+                          <img src={getMediaUrl(skill.icon_image)} alt={skill.name} class="w-12 h-12 mb-2 object-contain" />
                         {:else if skill.icon}
                           <span class="text-3xl mb-2">{skill.icon}</span>
                         {/if}
@@ -312,7 +303,7 @@
                     <div class="flex-shrink-0 mx-2">
                       <div class="flex flex-col items-center justify-center p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg hover:border-primary-500/50 transition-all hover:scale-105 w-32">
                         {#if skill.icon_image}
-                          <img src={skill.icon_image} alt={skill.name} class="w-12 h-12 mb-2 object-contain" />
+                          <img src={getMediaUrl(skill.icon_image)} alt={skill.name} class="w-12 h-12 mb-2 object-contain" />
                         {:else if skill.icon}
                           <span class="text-3xl mb-2">{skill.icon}</span>
                         {/if}
@@ -340,7 +331,7 @@
                     <div class="group">
                       <div class="flex flex-col items-center justify-center p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg hover:border-primary-500/50 transition-all hover:scale-105">
                         {#if skill.icon_image}
-                          <img src={skill.icon_image} alt={skill.name} class="w-12 h-12 mb-2 object-contain" />
+                          <img src={getMediaUrl(skill.icon_image)} alt={skill.name} class="w-12 h-12 mb-2 object-contain" />
                         {:else if skill.icon}
                           <span class="text-3xl mb-2">{skill.icon}</span>
                         {/if}
@@ -494,7 +485,7 @@
                 {#if cert.image_url}
                   <div class="mb-4 rounded-lg overflow-hidden border border-zinc-800 transition-colors {cert.category === 'achievements' ? 'group-hover:border-yellow-500/50' : cert.category === 'certificate' ? 'group-hover:border-blue-500/50' : 'group-hover:border-green-500/50'}">
                     <img 
-                      src={cert.image_url} 
+                      src={getMediaUrl(cert.image_url)} 
                       alt={cert.name}
                       class="w-full h-48 object-cover"
                     />

@@ -1,6 +1,20 @@
 import { PUBLIC_API_URL } from '$env/static/public';
 
-const API_BASE = PUBLIC_API_URL || 'http://localhost:8000/api';
+export const API_BASE = PUBLIC_API_URL || 'http://localhost:8000/api';
+
+// Helper function to get full media URLs
+export function getMediaUrl(path: string | null | undefined): string {
+  if (!path) return '';
+  // If path is already a full URL, return as is
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
+  }
+  // Remove /api from the base URL and append the media path
+  const baseUrl = API_BASE.replace('/api', '').replace(/\/+$/, '');
+  // Ensure path starts with /
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  return `${baseUrl}${cleanPath}`;
+}
 
 async function fetchAPI(endpoint: string, options: RequestInit = {}) {
   const token = localStorage.getItem('access_token');
