@@ -235,7 +235,7 @@
                   <div class="relative">
                     <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-primary-500/30 rounded-full blur-3xl -z-10"></div>
                     <video 
-                      src={hero.video_url}
+                      src={getMediaUrl(hero.video_url)}
                       autoplay
                       loop
                       muted
@@ -249,7 +249,7 @@
                   <div class="relative">
                     <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-primary-500/30 rounded-full blur-3xl -z-10"></div>
                     <img 
-                      src={hero.image_url} 
+                      src={getMediaUrl(hero.image_url)} 
                       alt={hero.name}
                       class="w-[28rem] h-[18.67rem] md:w-[36rem] md:h-96 lg:w-[42rem] lg:h-[28rem] rounded-xl border-4 border-zinc-900 object-cover shadow-2xl shadow-primary-500/20 hover:shadow-primary-500/40 transition-shadow duration-300 relative z-10"
                     />
