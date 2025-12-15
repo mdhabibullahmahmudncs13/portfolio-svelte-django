@@ -1,0 +1,30 @@
+# Systemd service file for Django backend
+# Place this in /etc/systemd/system/portfolio.service
+# Commands:
+#   sudo systemctl start portfolio
+#   sudo systemctl enable portfolio
+#   sudo systemctl status portfolio
+#   sudo systemctl restart portfolio
+
+[Unit]
+Description=Portfolio Django Backend
+After=network.target postgresql.service
+
+[Service]
+Type=notify
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/portfolio/backend
+Environment="PATH=/var/www/portfolio/backend/venv/bin"
+ExecStart=/var/www/portfolio/backend/venv/bin/gunicorn \
+    --config /var/www/portfolio/backend/gunicorn_config.py \
+    portfolio_backend.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
