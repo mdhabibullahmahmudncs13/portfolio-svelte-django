@@ -1,6 +1,6 @@
 import { PUBLIC_API_URL } from '$env/static/public';
 
-export const API_BASE = PUBLIC_API_URL || 'http://localhost:8000/api';
+export const API_BASE = PUBLIC_API_URL || 'https://habib29far.pythonanywhere.com/api';
 
 // Helper function to get full media URLs
 export function getMediaUrl(path: string | null | undefined): string {
