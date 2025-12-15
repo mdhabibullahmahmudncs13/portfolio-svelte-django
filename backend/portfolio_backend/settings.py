@@ -121,7 +121,20 @@ REST_FRAMEWORK = {
 
 # JWT Settings
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': 
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': False,
+}
+
+# CORS Settings
+CORS_ALLOWED_ORIGINS = config(
+    'CORS_ALLOWED_ORIGINS',
+    default='http://localhost:5173,http://127.0.0.1:5173'
+).split(',')
+
+CORS_ALLOW_CREDENTIALS = True
 
 # Security settings for production
 if not DEBUG:
@@ -136,17 +149,4 @@ if not DEBUG:
     X_FRAME_OPTIONS = 'DENY'
     
 # Trusted origins for CSRF
-CSRF_TRUSTED_ORIGINS = [origin.replace('http://', 'https://') for origin in CORS_ALLOWED_ORIGINS if origin.startswith('http')]timedelta(hours=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': False,
-    'UPDATE_LAST_LOGIN': False,
-}
-
-# CORS Settings
-CORS_ALLOWED_ORIGINS = config(
-    'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:5173,http://127.0.0.1:5173'
-).split(',')
-
-CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = [origin.replace('http://', 'https://') for origin in CORS_ALLOWED_ORIGINS if origin.startswith('http')]
