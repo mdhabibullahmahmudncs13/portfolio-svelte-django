@@ -32,6 +32,17 @@
   let showAllParticipation = false;
   let showAllCertifications = false;
 
+  // Mobile menu state
+  let mobileMenuOpen = false;
+
+  function toggleMobileMenu() {
+    mobileMenuOpen = !mobileMenuOpen;
+  }
+
+  function closeMobileMenu() {
+    mobileMenuOpen = false;
+  }
+
   // Skills category filter
   let selectedCategory = 'All';
   const categories = ['All', 'Language', 'Framework', 'Tool', 'Platform', 'Other'];
@@ -139,20 +150,55 @@
           </a>
         </div>
         <!-- Mobile Menu Button -->
-        <button class="md:hidden text-gray-400 hover:text-primary-500">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
+        <button on:click={toggleMobileMenu} class="md:hidden text-gray-400 hover:text-primary-500 transition-colors">
+          {#if mobileMenuOpen}
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          {:else}
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          {/if}
         </button>
       </div>
+      
+      <!-- Mobile Menu Dropdown -->
+      {#if mobileMenuOpen}
+        <div class="md:hidden border-t border-zinc-800/50 bg-black/95 backdrop-blur-lg">
+          <div class="container mx-auto px-6 py-4 flex flex-col gap-3">
+            <a href="#home" on:click={closeMobileMenu} class="text-base font-medium text-gray-400 hover:text-primary-500 transition-colors py-2">
+              Home
+            </a>
+            <a href="#skills" on:click={closeMobileMenu} class="text-base font-medium text-gray-400 hover:text-primary-500 transition-colors py-2">
+              Skills
+            </a>
+            <a href="#projects" on:click={closeMobileMenu} class="text-base font-medium text-gray-400 hover:text-primary-500 transition-colors py-2">
+              Projects
+            </a>
+            <a href="#experience" on:click={closeMobileMenu} class="text-base font-medium text-gray-400 hover:text-primary-500 transition-colors py-2">
+              Experience
+            </a>
+            <a href="#certifications" on:click={closeMobileMenu} class="text-base font-medium text-gray-400 hover:text-primary-500 transition-colors py-2">
+              Certifications
+            </a>
+            <a href="#activities" on:click={closeMobileMenu} class="text-base font-medium text-gray-400 hover:text-primary-500 transition-colors py-2">
+              Activities
+            </a>
+            <a href="#contact" on:click={closeMobileMenu} class="px-4 py-3 bg-primary-500 text-black text-base font-semibold rounded-lg hover:bg-primary-400 transition-all text-center mt-2">
+              Contact
+            </a>
+          </div>
+        </div>
+      {/if}
     </nav>
 
     <!-- Hero Section -->
     {#if hero}
-      <section id="home" class="min-h-screen flex items-center justify-center pt-20 pb-16">
-        <div class="container mx-auto px-4 relative z-10">
+      <section id="home" class="min-h-screen flex items-center justify-center pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="container mx-auto relative z-10">
           <div class="w-full">
-            <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-12">
+            <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-12">
               <!-- Left Content -->
               <div class="flex-1">
                 <!-- Status Badge -->
@@ -164,30 +210,30 @@
                 </div>
 
                 <!-- Name -->
-                <h1 class="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 text-white">
+                <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 md:mb-6 text-white leading-tight">
                   {hero.name}
                 </h1>
 
                 <!-- Tagline -->
-                <p class="text-2xl md:text-3xl text-primary-500 mb-6 font-medium">
+                <p class="text-xl sm:text-2xl md:text-3xl text-primary-500 mb-4 md:mb-6 font-medium">
                   {hero.tagline}
                 </p>
 
                 <!-- Description -->
-                <p class="text-lg text-gray-400 mb-10 max-w-2xl leading-relaxed">
+                <p class="text-base sm:text-lg text-gray-400 mb-8 md:mb-10 max-w-2xl leading-relaxed">
                   {hero.description}
                 </p>
 
                 <!-- CTA Buttons -->
-                <div class="flex flex-col sm:flex-row gap-4 items-start mb-12">
-                  <a href="#projects" class="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary-500 text-black text-base font-semibold rounded-lg hover:bg-primary-400 transition-all hover:scale-105 hover:shadow-lg hover:shadow-primary-500/50">
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-start mb-8 md:mb-12 w-full sm:w-auto">
+                  <a href="#projects" class="group inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-primary-500 text-black text-sm sm:text-base font-semibold rounded-lg hover:bg-primary-400 transition-all hover:scale-105 hover:shadow-lg hover:shadow-primary-500/50">
                     <span>View Projects</span>
                     <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                     </svg>
                   </a>
                   {#if hero.resume_url}
-                    <a href={getMediaUrl(hero.resume_url)} target="_blank" rel="noopener" class="group inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-zinc-800 text-gray-300 text-base font-semibold rounded-lg hover:bg-zinc-900 hover:border-primary-500 transition-all hover:scale-105">
+                    <a href={getMediaUrl(hero.resume_url)} target="_blank" rel="noopener" class="group inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 border-2 border-zinc-800 text-gray-300 text-sm sm:text-base font-semibold rounded-lg hover:bg-zinc-900 hover:border-primary-500 transition-all hover:scale-105">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                       </svg>
@@ -197,7 +243,7 @@
                 </div>
 
                 <!-- Social Links -->
-                <div class="flex space-x-6">
+                <div class="flex flex-wrap gap-4 sm:gap-6">
                   {#if hero.github_url}
                     <a href={hero.github_url} target="_blank" rel="noopener" class="text-gray-400 hover:text-primary-500 transition-colors text-2xl">
                       <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
@@ -230,28 +276,28 @@
               </div>
 
               <!-- Right - Profile Media (Image or Video) -->
-              <div class="flex-shrink-0">
+              <div class="flex-shrink-0 w-full md:w-auto">
                 {#if hero.media_type === 'video' && hero.video_url}
                   <div class="relative">
-                    <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-primary-500/30 rounded-full blur-3xl -z-10"></div>
+                    <div class="absolute -bottom-4 -right-4 w-24 h-24 sm:w-32 sm:h-32 bg-primary-500/30 rounded-full blur-3xl -z-10"></div>
                     <video 
                       src={getMediaUrl(hero.video_url)}
                       autoplay
                       loop
                       muted
                       playsinline
-                      class="w-[28rem] h-[18.67rem] md:w-[36rem] md:h-96 lg:w-[42rem] lg:h-[28rem] rounded-xl border-4 border-zinc-900 object-cover shadow-2xl shadow-primary-500/20 hover:shadow-primary-500/40 transition-shadow duration-300 relative z-10"
+                      class="w-full aspect-video sm:w-[28rem] sm:h-[18.67rem] md:w-[36rem] md:h-96 lg:w-[42rem] lg:h-[28rem] rounded-lg sm:rounded-xl border-2 sm:border-4 border-zinc-900 object-cover shadow-2xl shadow-primary-500/20 hover:shadow-primary-500/40 transition-shadow duration-300 relative z-10"
                     >
                       <track kind="captions" />
                     </video>
                   </div>
                 {:else if hero.image_url}
                   <div class="relative">
-                    <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-primary-500/30 rounded-full blur-3xl -z-10"></div>
+                    <div class="absolute -bottom-4 -right-4 w-24 h-24 sm:w-32 sm:h-32 bg-primary-500/30 rounded-full blur-3xl -z-10"></div>
                     <img 
                       src={getMediaUrl(hero.image_url)} 
                       alt={hero.name}
-                      class="w-[28rem] h-[18.67rem] md:w-[36rem] md:h-96 lg:w-[42rem] lg:h-[28rem] rounded-xl border-4 border-zinc-900 object-cover shadow-2xl shadow-primary-500/20 hover:shadow-primary-500/40 transition-shadow duration-300 relative z-10"
+                      class="w-full aspect-video sm:w-[28rem] sm:h-[18.67rem] md:w-[36rem] md:h-96 lg:w-[42rem] lg:h-[28rem] rounded-lg sm:rounded-xl border-2 sm:border-4 border-zinc-900 object-cover shadow-2xl shadow-primary-500/20 hover:shadow-primary-500/40 transition-shadow duration-300 relative z-10"
                     />
                   </div>
                 {/if}
@@ -264,8 +310,8 @@
 
     <!-- Skills Section -->
     {#if skills.length > 0}
-      <section id="skills" class="py-20 bg-zinc-950/30">
-        <div class="container mx-auto px-4">
+      <section id="skills" class="py-12 sm:py-16 md:py-20 bg-zinc-950/30">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 class="section-title text-center mb-12">Technical Arsenal</h2>
 
           <!-- Category Filter -->
@@ -375,8 +421,8 @@
 
     <!-- Projects Section -->
     {#if projects.length > 0}
-      <section id="projects" class="py-16 md:py-24 bg-zinc-950">
-        <div class="container mx-auto px-4 max-w-6xl">
+      <section id="projects" class="py-12 sm:py-16 md:py-24 bg-zinc-950">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <h2 class="section-title text-center mb-12">Projects</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {#each projects as project}
@@ -408,8 +454,8 @@
 
     <!-- Experience Section -->
     {#if experience.length > 0}
-      <section id="experience" class="py-16 md:py-24 bg-black">
-        <div class="container mx-auto px-4 max-w-4xl">
+      <section id="experience" class="py-12 sm:py-16 md:py-24 bg-black">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <h2 class="section-title text-center mb-12">Experience</h2>
           <div class="space-y-8">
             {#each experience as exp}
@@ -435,8 +481,8 @@
 
     <!-- Certifications Section -->
     {#if certifications.length > 0}
-      <section id="certifications" class="py-16 md:py-24 bg-zinc-950">
-        <div class="container mx-auto px-4 max-w-6xl">
+      <section id="certifications" class="py-12 sm:py-16 md:py-24 bg-zinc-950">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <h2 class="section-title text-center mb-12">Accomplishments</h2>
           
           <!-- Category Tabs -->
@@ -560,8 +606,8 @@
 
     <!-- Contact Section -->
     {#if contact}
-      <section id="contact" class="py-16 md:py-24 bg-zinc-950">
-        <div class="container mx-auto px-4 max-w-5xl">
+      <section id="contact" class="py-12 sm:py-16 md:py-24 bg-zinc-950">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
           <h2 class="section-title text-center mb-12">Get In Touch</h2>
           
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
@@ -581,7 +627,7 @@
                   </div>
                   <div>
                     <h4 class="text-sm font-semibold text-primary-500 mb-1">Email</h4>
-                    <a href="mailto:{contact.email}" class="text-gray-300 hover:text-primary-400 transition-colors">{contact.email}</a>
+                    <a href="mailto:{contact.email}" class="break-all text-gray-300 hover:text-primary-400 transition-colors">{contact.email}</a>
                   </div>
                 </div>
 
