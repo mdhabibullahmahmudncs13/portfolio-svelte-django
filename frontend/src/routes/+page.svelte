@@ -7,6 +7,12 @@
   let hero: Hero | null = null;
   let skills: Skill[] = [];
   let projects: Project[] = [];
+  // Project category filter
+  let selectedProjectCategory = 'All';
+  $: projectCategories = ['All', ...Array.from(new Set(projects.map(p => p.category).filter(Boolean)))];
+  $: filteredProjects = selectedProjectCategory === 'All'
+    ? projects
+    : projects.filter(p => p.category === selectedProjectCategory);
   let experience: Experience[] = [];
   let certifications: Certification[] = [];
   let contact: Contact | null = null;
@@ -419,13 +425,25 @@
       </section>
     {/if}
 
+
     <!-- Projects Section -->
     {#if projects.length > 0}
       <section id="projects" class="py-12 sm:py-16 md:py-24 bg-zinc-950">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <h2 class="section-title text-center mb-12">Projects</h2>
+          <!-- Project Category Tabs -->
+          <div class="flex flex-wrap justify-center gap-2 mb-10">
+            {#each projectCategories as category}
+              <button
+                on:click={() => selectedProjectCategory = category}
+                class="px-4 py-1.5 text-sm font-medium transition-colors duration-200 {selectedProjectCategory === category ? 'text-primary-500 border-b-2 border-primary-500' : 'text-gray-400 hover:text-gray-300'}"
+              >
+                {category}
+              </button>
+            {/each}
+          </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {#each projects as project}
+            {#each filteredProjects as project}
               <div class="card group">
                 {#if project.featured}
                   <span class="inline-block bg-primary-500 text-black text-xs px-2 py-1 rounded mb-2 font-semibold">Featured</span>
