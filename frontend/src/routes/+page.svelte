@@ -445,6 +445,15 @@
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {#each filteredProjects as project}
               <div class="card group">
+                {#if project.image_url}
+                  <div class="mb-4 rounded-lg overflow-hidden border border-zinc-800">
+                    <img
+                      src={getMediaUrl(project.image_url)}
+                      alt={project.title}
+                      class="w-full h-48 object-cover"
+                    />
+                  </div>
+                {/if}
                 {#if project.featured}
                   <span class="inline-block bg-primary-500 text-black text-xs px-2 py-1 rounded mb-2 font-semibold">Featured</span>
                 {/if}
